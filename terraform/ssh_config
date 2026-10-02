@@ -1,0 +1,25 @@
+# SSH cho lab AWS (Terraform + Bastion)
+#
+# CÁCH DÙNG
+#   1. Chạy `terraform output` trong thư mục này, lấy bastion_public_ip và gpu_private_ip
+#   2. Thay hai placeholder bên dưới bằng IP thật (bỏ cả dấu < >)
+#   3. ssh -F ssh_config lab-cpu
+#
+# IdentityFile trỏ tới ~/.ssh/lab-key thay vì ./lab-key như README ghi, vì repo
+# đang nằm trên ổ Windows mount qua 9p/DrvFs (/mnt/s) — filesystem đó không lưu
+# được POSIX permission nên file luôn ở mode 777 và OpenSSH sẽ từ chối key
+# ("UNPROTECTED PRIVATE KEY FILE"). Bản private trong ~/.ssh đã chmod 600.
+# Đây chỉ là khác biệt vị trí lưu, cơ chế ProxyJump giữ nguyên như README.
+
+Host lab-bastion
+    HostName <BASTION_PUBLIC_IP>
+    User ubuntu
+    IdentityFile ~/.ssh/lab-key
+    IdentitiesOnly yes
+
+Host lab-cpu
+    HostName <GPU_PRIVATE_IP>
+    User ubuntu
+    IdentityFile ~/.ssh/lab-key
+    IdentitiesOnly yes
+    ProxyJump lab-bastion

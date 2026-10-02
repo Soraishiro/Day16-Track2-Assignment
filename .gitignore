@@ -1,5 +1,6 @@
 # Terraform local state and backups
 **/.terraform/*
+**/.terraform
 *.tfstate
 *.tfstate.*
 crash.log
@@ -20,3 +21,15 @@ lab-key.pub
 # Environment Variables
 .env
 .env.local
+
+# Kaggle credentials (legacy API key) — secret, phai luon nam ngoai repo
+kaggle.json
+**/kaggle.json
+
+# Python
+__pycache__/
+*.pyc
+
+# Zip goi nop: trung noi dung voi thu muc submission/ nen khong commit, chi
+# nén khi lop yeu cau. File van nam tren dia de noi bai.
+lab16-submission.zip
